@@ -50,5 +50,8 @@ if __name__ == "__main__":
         print(f"Applying filter: {bpf_filter}")
     else:
         print("No filter applied, capturing all packets.")
-        
-    sniff(prn=process_packet, store=False, filter=bpf_filter) #it will not store packets in memory
+    
+    try:
+        sniff(prn=process_packet, store=False, filter=bpf_filter, timeout=30) #it will not store packets in memory, timeout after 30 seconds
+    except KeyboardInterrupt:
+        print("Packet capture stopped by user")
