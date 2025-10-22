@@ -5,6 +5,7 @@ import csv
 from datetime import datetime
 import os
 from util import build_filter
+from analyzer import analyze_packet
 
 #Setting up Log File
 LOG_FILE = "data/packet_log.csv"
@@ -31,6 +32,9 @@ def process_packet(packet):
         with open(LOG_FILE, "a", newline="") as f:
             writer = csv.writer(f)
             writer.writerow(row)
+        
+        #analyze packet for suspicious activity
+        analyze_packet(ip_layer.src, ip_layer.dst, protocol, len(packet))
         
         print(f"[{row[0]}] {row[1]} -> {row[2]} ({row[3]}, {row[4]} bytes)")
 
